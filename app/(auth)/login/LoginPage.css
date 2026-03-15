@@ -1,0 +1,48 @@
+.username-input-label,
+.password-input-label {
+  margin-bottom: 6px;
+  display: block;
+}
+
+.username-input-field,
+.password-input-field {
+  height: 50px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.username-input-field::placeholder,
+.password-input-field::placeholder {
+  font-size: 16px;
+  color: var(--dark-600);
+  font-family: "Urbanist", sans-serif;
+}
+
+.login-background {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.login {
+  padding-bottom: 12rem;
+}
+
+.login-error {
+  color: var(--primary-400);
+}
+
+@media (max-width: 992px) {
+  .login {
+    padding-bottom: 0rem;
+  }
+}
+@media (max-width: 768px) {
+  .username-input-field,
+  .password-input-field {
+    max-width: 100%;
+  }
+}
