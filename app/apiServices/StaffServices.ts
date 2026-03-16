@@ -1,8 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { del, get } from "./globalService";
+import { del, get, post } from "./globalService";
 
-// ---------------- TYPES ----------------
+// ---------------- Add staff ----------------
+
+export interface AddStaffPayload {
+  first_name: string;
+  last_name: string;
+  email_address: string;
+  username: string;
+  password: string;
+  branch: number;
+  contact_number: string;
+  street_address_1: string;
+  street_address_2: string;
+  city: string;
+  district: string;
+  state: string;
+  postal_code: string;
+  role: string;
+}
+
+export interface AddStaffResponse {
+  status: string;
+  message: string;
+  results: Staff;
+  statusCode: number;
+}
+
+// ---------------- GET ----------------
 
 export interface Staff {
   id: number;
@@ -37,6 +63,21 @@ export const useStaffListQuery = (page: number) => {
         role: "staff",
         page: page,
       });
+    },
+  });
+};
+
+// ---------------- ADD STAFF -------------------
+
+export const useAddStaffMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<AddStaffResponse, any, AddStaffPayload>({
+    mutationFn: (payload) => post("users/", payload),
+
+    onSuccess: () => {
+      // 🔥 refresh staff list automatically
+      queryClient.invalidateQueries({ queryKey: ["staff-list"] });
     },
   });
 };

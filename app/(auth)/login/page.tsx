@@ -22,12 +22,12 @@ const LoginPage: FC = () => {
   const form = useForm({
     mode: "controlled",
     initialValues: {
-      email: "",
+      username: "",
       password: "",
       remember: false,
     },
     validate: {
-      email: (value) => (value ? null : "invalid username"),
+      username: (value) => (value ? null : "invalid username"),
       password: (value) =>
         value.length >= 8 ? null : "Password must be at least 8 characters",
     },
@@ -35,10 +35,10 @@ const LoginPage: FC = () => {
   const { mutate: loginMutation, isPending } = useLoginMutation();
   const router = useRouter();
 
-  const handleLogin = (values: { email: string; password: string }) => {
+  const handleLogin = (values: { username: string; password: string }) => {
     loginMutation(
       {
-        username: values.email,
+        username: values.username,
         password: values.password,
       },
       {
@@ -56,7 +56,7 @@ const LoginPage: FC = () => {
         onError: (error: any) => {
           console.log("test error", error?.data?.errorDetails?.username?.[0]);
           form.setErrors({
-            email: error?.data?.errorDetails?.username?.[0] || "",
+            username: error?.data?.errorDetails?.username?.[0] || "",
             password: error?.data?.message || "",
           });
         },
@@ -83,8 +83,8 @@ const LoginPage: FC = () => {
           <TextInput
             label="Username"
             placeholder="Enter username"
-            key={form.key("email")}
-            {...form.getInputProps("email")}
+            key={form.key("username")}
+            {...form.getInputProps("username")}
             classNames={{
               label: "username-input-label fs-18",
               input: "username-input-field",
@@ -115,7 +115,7 @@ const LoginPage: FC = () => {
             className="fs-22 fw-medium"
             h={50}
             loading={isPending}
-            disabled={form.values.email && form.values.password ? false : true}
+            disabled={form.values.username && form.values.password ? false : true}
           >
             Login
           </Button>

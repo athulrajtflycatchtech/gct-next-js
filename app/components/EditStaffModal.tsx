@@ -30,13 +30,12 @@ import {
   Flex,
   PasswordInput,
   Text,
-  Image,
   Select,
   NumberInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input/input";
 
 interface StaffModalProp {
   close: () => void;
@@ -115,14 +114,9 @@ const EditStaffModal = ({ opened, close }: StaffModalProp) => {
                 </Text>
                 <PhoneInput
                   placeholder="Enter phone number"
-                  value={""}
+                  value={''}
                   onChange={(value) => form.setFieldValue("phone", value || "")}
                   defaultCountry="IN"
-                  international
-                  withCountryCallingCode
-                  className={`staff-phone-input ${
-                    form.errors.phone ? "staff-phone-input-error" : ""
-                  }`}
                 />
                 {form.errors.phone && (
                   <Text c={"var(--primary-400)"}>{form.errors.phone}</Text>
