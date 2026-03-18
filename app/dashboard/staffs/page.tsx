@@ -10,13 +10,14 @@ import RoleGuard from "@/app/components/RoleGuard";
 import { Box, Flex, Table, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
-import EditStaffModal from "@/app/components/EditStaffModal";
-import AddStaffModal from "@/app/components/AddStaffModal";
+// import EditStaffModal from "@/app/components/EditStaffModal";
+import StaffModal from "@/app/components/StaffModal";
 
 const StaffPage = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [StaffModalOpened, { open: StaffModalOpen, close: StaffModalClose }] =
+    useDisclosure(false);
 
-  const [ AddStaffModalOpened, { open: AddStaffModalOpen, close: AddStaffModalClose },] = useDisclosure(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const { mutate: deleteStaff } = useDeleteStaffMutation();
 
@@ -35,7 +36,12 @@ const StaffPage = () => {
   return (
     <RoleGuard allowedRoles={["super_admin"]}>
       <Box>
-        <AddStaff AddStaffModalOpen={AddStaffModalOpen} />
+        <AddStaff
+          StaffModalOpen={() => {
+            setSelectedId(null); // 🔥 VERY IMPORTANT
+            StaffModalOpen();
+          }}
+        />
       </Box>
       <Box>
         <Table>
@@ -64,7 +70,13 @@ const StaffPage = () => {
                 <Table.Td>{staff.status}</Table.Td>
                 <Table.Td>
                   <Flex gap={30}>
-                    <Text onClick={open} style={{ cursor: "pointer" }}>
+                    <Text
+                      onClick={() => {
+                        setSelectedId(staff.id); // 🔥 EDIT MODE
+                        StaffModalOpen();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
                       Edit
                     </Text>
                     <Text
@@ -82,10 +94,11 @@ const StaffPage = () => {
 
         <PaginationPage total={totalPages} page={page} onChange={setPage} />
       </Box>
-      <EditStaffModal close={close} opened={opened} />
-      <AddStaffModal
-        AddStaffModalOpened={AddStaffModalOpened}
-        AddStaffModalClose={AddStaffModalClose}
+      {/* <EditStaffModal close={close} opened={opened} /> */}
+      <StaffModal
+        StaffModalOpened={StaffModalOpened}
+        StaffModalClose={StaffModalClose}
+        staffId={selectedId}
       />
     </RoleGuard>
   );

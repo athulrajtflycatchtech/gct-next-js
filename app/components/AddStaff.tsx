@@ -1,12 +1,12 @@
 import { Button, Flex } from '@mantine/core'
 interface AddStaffProp {
-    AddStaffModalOpen: () => void;
+    StaffModalOpen: () => void;
 }
 
-const AddStaff = ({AddStaffModalOpen}:AddStaffProp) => {
+const AddStaff = ({StaffModalOpen}:AddStaffProp) => {
   return (
     <Flex justify={'flex-end'}>
-        <Button variant="filled" onClick={AddStaffModalOpen}>Add staff</Button>
+        <Button variant="filled" onClick={StaffModalOpen}>Add staff</Button>
     </Flex>
   )
 }
