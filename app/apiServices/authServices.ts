@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { post } from "./globalService";
+import { notifications } from "@mantine/notifications";
 
 // ---------------- TYPES ----------------
 
@@ -28,6 +29,21 @@ export const useLoginMutation = () => {
   return useMutation<LoginResponse, any, LoginPayload>({
     mutationFn: async (payload: LoginPayload) => {
       return post<LoginResponse, LoginPayload>("/login/", payload);
+    },
+    onSuccess: () => {
+      notifications.show({
+        title: "Success",
+        message: "Login successfully",
+        color: "green",
+      });
+    },
+
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "Login failed",
+        color: "red",
+      });
     },
   });
 };
