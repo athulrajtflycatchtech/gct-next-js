@@ -32,7 +32,9 @@ const StaffModal = ({
   StaffModalClose,
   staffId,
 }: StaffModalProp) => {
-  const isEdit = !!staffId;
+  
+  const isEdit = !!staffId; // OR const isEdit = staffId ? true : false;
+
   const { data } = useStaffDetailQuery(staffId || null);
   const { mutate: addStaff, isPending: isAdding } = useAddStaffMutation();
   const { mutate: updateStaff, isPending: isUpdating } =
